@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.App {
+}
+
+.App-header {
+  text-align: center;
+  background-color: #222;
+  height: 20%;
+  padding: 2%;
+  color: #f4f4f4;
+}
+
+.results_headers {
+  background-color: #222;
+  color: #f4f4f4;
+}
+
+.results {
+  position: relative;
+  width: 90%;
+  height: 100%;
+  margin: 2% auto;
+}
+
+table {
+  border: 1px solid #222;
+}
+
+table, th, td {
+  padding: 1%;
+  text-align: left;
+  border-right: 1px solid #222;
+  border-left: 1px solid #222;
+  border-collapse: collapse;
+}
+
+th {
+  color: #f4f4f4;
+  background-color: #222;
+}
+
+tr:nth-child(even) {
+    background-color: #ddd;
+}
+
+tr:nth-child(odd) {
+    background-color: #f4f4f4;
+}
