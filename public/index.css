@@ -5,6 +5,7 @@ body {
 }
 
 .App {
+  text-align: center;
 }
 
 .App-header {
@@ -13,6 +14,12 @@ body {
   height: 20%;
   padding: 2%;
   color: #f4f4f4;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .results_headers {
