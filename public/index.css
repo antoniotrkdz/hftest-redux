@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: #fafafa
 }
 
 .App {
@@ -13,28 +14,40 @@ body {
   background-color: #222;
   height: 20%;
   padding: 2%;
-  color: #f4f4f4;
+  color: #fafafa;
 }
 
 .form {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 70%;
+  margin: 3% auto;
+}
+
+.form * {
+  margin: .5%;
+}
+
+.form-control:focus {
+  border-color: #222;
+}
+
+.form .btn:focus {
+  outline-color: #222;
 }
 
 .results_headers {
   background-color: #222;
-  color: #f4f4f4;
 }
 
-.results {
-  position: relative;
-  width: 90%;
-  height: 100%;
-  margin: 2% auto;
+.results_headers:hover {
+  cursor: pointer;
 }
 
 table {
+  width: 90%;
+  margin: 3% auto;
   border: 1px solid #222;
 }
 
@@ -43,11 +56,10 @@ table, th, td {
   text-align: left;
   border-right: 1px solid #222;
   border-left: 1px solid #222;
-  border-collapse: collapse;
 }
 
 th {
-  color: #f4f4f4;
+  color: #fafafa;
   background-color: #222;
 }
 
@@ -56,5 +68,19 @@ tr:nth-child(even) {
 }
 
 tr:nth-child(odd) {
-    background-color: #f4f4f4;
+    background-color: #fafafa;
+}
+
+.pagination>li>a {
+  color: #222;
+}
+
+.pagination>.active>a {
+  color: #fafafa;
+  background-color: #222;
+  border: 1px solid #222;
+}
+
+.pagination>li>a:hover {
+  color: #222
 }

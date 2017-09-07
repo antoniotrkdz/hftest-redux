@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Pager from 'react-pager';
 
 class App extends Component {
   constructor() {
@@ -6,31 +7,54 @@ class App extends Component {
     this.fetchPatients = this.fetchPatients.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.handlePageChanged = this.handlePageChanged.bind(this);
 
     this.state = {
       searchTerm: '',
+      patients: [],
       params: {
-        size: 10,
-      },
-      patients: {
-        content: [],
+        //last: false,
+        //totalPages: 100,
+        //totalElements: 1000,
+        //sort: null,
+        //numberOfElements: 10,
+        //first: true,
+        //size: 10,
+        //number: 0,
+        //size: 10,
+        //page: 0,
       },
     };
   }
 
-  fetchPatients(path, params) {
-    path = this.state.searchTerm;
-    params = this.state.params;
-    console.log('path', path, 'params', params);
+  fetchPatients(params) {
+    //path = this.state.searchTerm;
+    //params = this.state.patients;
+    //console.log('path', path, 'params', params);
+    console.log('params', params);
     const url = new URL('https://api.interview.healthforge.io/api/patient');
-    Object.keys(params).forEach(key =>
-      url.searchParams.append(key, params[key])
-    );
+    if (params)
+      Object.keys(params).forEach(key =>
+        url.searchParams.append(key, params[key])
+      );
 
     console.log('url', url);
-    fetch(url)
-      .then(response => response.json())
-      .then(response => this.setState({patients: response}));
+    fetch(url).then(response => response.json()).then(response =>
+      this.setState({
+        patients: response.content,
+        params: {
+          last: response.last,
+          totalPages: response.totalPages,
+          totalElements: response.totalElements,
+          sort: response.sort,
+          numberOfElements: response.numberOfElements,
+          first: response.first,
+          size: response.size,
+          number: response.number,
+          page: response.number,
+        },
+      })
+    );
   }
 
   componentWillMount() {
@@ -48,6 +72,11 @@ class App extends Component {
     this.fetchPatients(this.state.searchTerm);
   }
 
+  handlePageChanged(page) {
+    this.setState({current: page});
+    this.fetchPatients({page});
+  }
+
   render() {
     var patients = this.state.patients;
     console.log('patients', patients);
@@ -57,51 +86,80 @@ class App extends Component {
         <div className="App-header">
           <h2>Welcome to Health Forge</h2>
         </div>
-        <div className="form">
-          <div>
-            <h4>Search&nbsp;</h4>
-          </div>
-          <input
-            type="text"
-            className="form-control"
-            name="searchTerm"
-            value={this.state.searchTerm}
-            onChange={this.onChange}
-          />
-          <button type="clear" onClick={() => this.setState({searchTerm: ''})}>
-            Clear
-          </button>
-          <button type="submit">Submit</button>
-        </div>
-
-        <table className="results">
-          <tr className="results_headers">
-            <th
-              onClick={() => {
-                this.setState({params: 'firstName ASC'});
-                this.fetchPatients();
-              }}
+        <div className="container">
+          <div className="form">
+            <div>
+              <h4>Search&nbsp;</h4>
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              name="searchTerm"
+              value={this.state.searchTerm}
+              onChange={this.onChange}
+            />
+            <button
+              className="btn"
+              type="clear"
+              onClick={() => this.setState({searchTerm: ''})}
             >
-              First name
-            </th>
-            <th>Last name</th>
-            <th>Date of birth</th>
-          </tr>
-          {patients.content.map(index =>
-            <tr>
-              <td>
-                {index.firstName}
-              </td>
-              <td>
-                {index.lastName}
-              </td>
-              <td>
-                {index.dateOfBirth.slice(0, 10)}
-              </td>
+              Clear
+            </button>
+            <button
+              className="btn"
+              type="submit"
+              onClick={this.onSubmit}
+            >
+              Submit
+            </button>
+          </div>
+
+          <table className="table">
+            <tr className="results_headers">
+              <th
+                onClick={() => {
+                  this.fetchPatients({sort: 'firstName ASC'});
+                }}
+              >
+                First name
+              </th>
+              <th
+                onClick={() => {
+                  this.fetchPatients({sort: 'lastName ASC'});
+                }}
+              >
+                Last name
+              </th>
+              <th
+                onClick={() => {
+                  this.fetchPatients({sort: 'dateOfBirth ASC'});
+                }}
+              >
+                Date of birth
+              </th>
             </tr>
-          )}
-        </table>
-        <div />
+            {patients.map(index =>
+              <tr>
+                <td>
+                  {index.firstName}
+                </td>
+                <td>
+                  {index.lastName}
+                </td>
+                <td>
+                  {index.dateOfBirth.slice(0, 10)}
+                </td>
+              </tr>
+            )}
+          </table>
+          <Pager
+            className="pagination"
+            total={this.state.params.totalPages}
+            current={this.state.params.number}
+            visiblePages={5}
+            onPageChanged={this.handlePageChanged}
+          />
+        </div>
       </div>
     );
   }
