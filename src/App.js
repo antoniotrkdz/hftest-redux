@@ -7,12 +7,13 @@ class App extends Component {
     this.fetchPatients = this.fetchPatients.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.toggleSort = this.toggleSort.bind(this);
     this.handlePageChanged = this.handlePageChanged.bind(this);
 
     this.state = {
       searchTerm: '',
       patients: [],
-      params: {
+      responseParams: {
         //last: false,
         //totalPages: 100,
         //totalElements: 1000,
@@ -24,25 +25,30 @@ class App extends Component {
         //size: 10,
         //page: 0,
       },
+      requestParams: {
+        sort: null,
+        size: 10,
+        page: 0,
+      },
     };
   }
 
-  fetchPatients(params) {
+  fetchPatients(requestParams) {
     //path = this.state.searchTerm;
     //params = this.state.patients;
     //console.log('path', path, 'params', params);
-    console.log('params', params);
+    console.log('reqParams', requestParams);
     const url = new URL('https://api.interview.healthforge.io/api/patient');
-    if (params)
-      Object.keys(params).forEach(key =>
-        url.searchParams.append(key, params[key])
+    if (requestParams)
+      Object.keys(requestParams).forEach(key =>
+        url.searchParams.append(key, requestParams[key])
       );
 
     console.log('url', url);
     fetch(url).then(response => response.json()).then(response =>
       this.setState({
         patients: response.content,
-        params: {
+        responseParams: {
           last: response.last,
           totalPages: response.totalPages,
           totalElements: response.totalElements,
@@ -72,8 +78,12 @@ class App extends Component {
     this.fetchPatients(this.state.searchTerm);
   }
 
+  toggleSort() {
+    
+  }
+
   handlePageChanged(page) {
-    this.setState({current: page});
+    this.setState({requestParams: {page: page}});
     this.fetchPatients({page});
   }
 
@@ -154,8 +164,8 @@ class App extends Component {
           </table>
           <Pager
             className="pagination"
-            total={this.state.params.totalPages}
-            current={this.state.params.number}
+            total={this.state.responseParams.totalPages}
+            current={this.state.responseParams.number}
             visiblePages={5}
             onPageChanged={this.handlePageChanged}
           />
