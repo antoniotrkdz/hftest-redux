@@ -89,7 +89,7 @@ class App extends Component {
         <div className="container">
           <div className="form">
             <div>
-              <h4>Search&nbsp;</h4>
+              <h4>Search</h4>
             </div>
             <input
               type="text"

@@ -84,3 +84,8 @@ tr:nth-child(odd) {
 .pagination>li>a:hover {
   color: #222
 }
+
+.pagination>.active>a:hover {
+  background-color: #444;
+  border: 1px solid #444;
+}
