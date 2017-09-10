@@ -82,6 +82,7 @@ tr:nth-child(odd) {
 }
 
 .pagination>li>a:hover {
+  cursor: pointer;
   color: #222
 }
 

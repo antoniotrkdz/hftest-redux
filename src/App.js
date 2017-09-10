@@ -75,22 +75,50 @@ class App extends Component {
 
   onSubmit(evt) {
     evt.preventDefault();
+    this.setState({
+    
+    })
     this.fetchPatients(this.state.searchTerm);
   }
 
-  toggleSort() {
-    
+  toggleSort(column) {
+    console.log('||',column, 'URL', this.URL);
+    var requestParams = this.state.requestParams;
+    console.log('||reqP',requestParams);
+    requestParams.sort === column + ' ASC' || null
+      ? this.setState({
+        requestParams: {
+          ...requestParams,
+          sort: column + ' DESC',
+        },
+      })
+      : this.setState({
+        requestParams: {
+          ...requestParams,
+          sort: column + ' ASC',
+        },
+      });
+
+    this.fetchPatients(this.state.requestParams);
+    console.log('Fetching after toggle');
   }
 
   handlePageChanged(page) {
-    this.setState({requestParams: {page: page}});
-    this.fetchPatients({page});
+    var requestParams = this.state.requestParams;
+    this.setState({
+      requestParams: {
+        ...requestParams,
+        page: page,
+      },
+    });
+    this.fetchPatients(this.state.requestParams);
   }
 
   render() {
     var patients = this.state.patients;
     console.log('patients', patients);
     console.log('state', this.state);
+    console.log('props', this.props);
     return (
       <div className="App">
         <div className="App-header">
@@ -115,35 +143,18 @@ class App extends Component {
             >
               Clear
             </button>
-            <button
-              className="btn"
-              type="submit"
-              onClick={this.onSubmit}
-            >
+            <button className="btn" type="submit" onClick={this.onSubmit}>
               Submit
             </button>
           </div>
 
           <table className="table">
             <tr className="results_headers">
+              <th onClick={() => this.toggleSort('lastName')}>Last name</th>
+              <th onClick={() => this.toggleSort('firstName')}>First name</th>
               <th
-                onClick={() => {
-                  this.fetchPatients({sort: 'firstName ASC'});
-                }}
-              >
-                First name
-              </th>
-              <th
-                onClick={() => {
-                  this.fetchPatients({sort: 'lastName ASC'});
-                }}
-              >
-                Last name
-              </th>
-              <th
-                onClick={() => {
-                  this.fetchPatients({sort: 'dateOfBirth ASC'});
-                }}
+                id="dateOfBirth"
+                onClick={() => this.toggleSort('dateOfBirth')}
               >
                 Date of birth
               </th>
@@ -151,10 +162,10 @@ class App extends Component {
             {patients.map(index =>
               <tr>
                 <td>
-                  {index.firstName}
+                  {index.lastName}
                 </td>
                 <td>
-                  {index.lastName}
+                  {index.firstName}
                 </td>
                 <td>
                   {index.dateOfBirth.slice(0, 10)}
