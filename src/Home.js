@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import Pager from 'react-pager';
+import moment from 'moment';
+import {Link} from 'react-router-dom';
 
-class App extends Component {
+class Home extends Component {
   constructor() {
     super();
     this.fetchPatients = this.fetchPatients.bind(this);
@@ -26,17 +28,12 @@ class App extends Component {
         //page: 0,
       },
       requestParams: {
-        sort: null,
         size: 10,
-        page: 0,
       },
     };
   }
 
   fetchPatients(requestParams) {
-    //path = this.state.searchTerm;
-    //params = this.state.patients;
-    //console.log('path', path, 'params', params);
     console.log('reqParams', requestParams);
     const url = new URL('https://api.interview.healthforge.io/api/patient');
     if (requestParams)
@@ -75,16 +72,14 @@ class App extends Component {
 
   onSubmit(evt) {
     evt.preventDefault();
-    this.setState({
-    
-    })
-    this.fetchPatients(this.state.searchTerm);
+    if (moment.evt) this.setState({});
+    this.fetchPatients(this.state.requestParams);
   }
 
   toggleSort(column) {
-    console.log('||',column, 'URL', this.URL);
+    console.log('||', column, 'URL', this.URL);
     var requestParams = this.state.requestParams;
-    console.log('||reqP',requestParams);
+    console.log('||reqP', requestParams);
     requestParams.sort === column + ' ASC' || null
       ? this.setState({
         requestParams: {
@@ -116,14 +111,17 @@ class App extends Component {
 
   render() {
     var patients = this.state.patients;
+    var identifiers = patients.map(item =>
+      item.identifiers.reduce(item => {
+        if (item.usage !== null) return item.value;
+      })
+    );
     console.log('patients', patients);
+    console.log('ident', identifiers);
     console.log('state', this.state);
     console.log('props', this.props);
     return (
       <div className="App">
-        <div className="App-header">
-          <h2>Welcome to Health Forge</h2>
-        </div>
         <div className="container">
           <div className="form">
             <div>
@@ -149,29 +147,37 @@ class App extends Component {
           </div>
 
           <table className="table">
-            <tr className="results_headers">
-              <th onClick={() => this.toggleSort('lastName')}>Last name</th>
-              <th onClick={() => this.toggleSort('firstName')}>First name</th>
-              <th
-                id="dateOfBirth"
-                onClick={() => this.toggleSort('dateOfBirth')}
-              >
-                Date of birth
-              </th>
-            </tr>
-            {patients.map(index =>
-              <tr>
-                <td>
-                  {index.lastName}
-                </td>
-                <td>
-                  {index.firstName}
-                </td>
-                <td>
-                  {index.dateOfBirth.slice(0, 10)}
-                </td>
+            <tbody>
+              <tr className="results_headers">
+                <th onClick={() => this.toggleSort('lastName')}>Last name</th>
+                <th onClick={() => this.toggleSort('firstName')}>First name</th>
+                <th
+                  id="dateOfBirth"
+                  onClick={() => this.toggleSort('dateOfBirth')}
+                >
+                  Date of birth
+                </th>
               </tr>
-            )}
+              {patients.map((item, i) =>
+                <tr key={identifiers[i]}>
+                  <td>
+                    <Link to={'/' + identifiers[i]}>
+                      {item.lastName}
+                    </Link>
+                  </td>
+                  <td>
+                    <Link to={'/' + identifiers[i]}>
+                      {item.firstName}
+                    </Link>
+                  </td>
+                  <td>
+                    <Link to={'/' + identifiers[i]}>
+                      {moment(item.dateOfBirth).format('DD MMM YYYY')}
+                    </Link>
+                  </td>
+                </tr>
+              )}
+            </tbody>
           </table>
           <Pager
             className="pagination"
@@ -186,4 +192,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;
