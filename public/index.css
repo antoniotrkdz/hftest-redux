@@ -90,3 +90,19 @@ tr:nth-child(odd) {
   background-color: #444;
   border: 1px solid #444;
 }
+
+/*Patient Detail Page*/
+
+.credentials {
+  display: flex;
+  flex-direction: row;
+}
+
+.fields {
+  display: flex;
+}
+
+.fieldnames {
+  color: #fafafa;
+  background-color: #222;
+}
