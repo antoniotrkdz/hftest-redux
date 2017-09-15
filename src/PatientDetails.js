@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {types} from './types.js';
+import moment from 'moment';
 
 class PatientDetails extends Component {
   constructor() {
@@ -48,15 +49,19 @@ class PatientDetails extends Component {
           {Object.keys(patient).map(item => {
             if (types.get(patient[item]) === types.string) {
               return (
-                <div clasName="fields">
+                <div className="fields">
                   <div className="fieldnames">
                     <h4>
                       {this.state.fieldNames[item]}
                     </h4>
                   </div>
-                  <h4>
-                    {patient[item]}
-                  </h4>
+                  {patient[item].search(/\d{4}/) !== -1
+                    ? <h4 className="fieldContent dates">
+                      {moment(patient[item]).format('DD MMM YYYY')}
+                    </h4>
+                    : <h4 className="fieldContent">
+                      {patient[item]}
+                    </h4>}
                 </div>
               );
             }
