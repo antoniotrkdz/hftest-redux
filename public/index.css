@@ -116,3 +116,10 @@ tr:nth-child(odd) {
 .fieldContent {
   padding: 0 10px;
 }
+
+.dates {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+} 
