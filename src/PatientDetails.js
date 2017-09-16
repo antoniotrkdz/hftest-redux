@@ -41,12 +41,10 @@ class PatientDetails extends Component {
     let fieldNames = this.state.fieldNames;
     console.log('1patient', patient);
     console.log(Object.keys(patient));
+    console.log(this.props.match.params.patientId);
     return (
       <div className="container">
         <h2>Patient details</h2>
-        <h4>
-          Patient ID: {this.props.match.params.patientId}
-        </h4>
         <div className="credentials">
           {Object.keys(patient).map(item => {
             if (
@@ -55,7 +53,7 @@ class PatientDetails extends Component {
             ) {
               return (
                 <div className="fields">
-                  <div className="fieldnames">
+                  <div className="fieldNames">
                     <h4>
                       {fieldNames[item]}
                     </h4>
@@ -69,7 +67,7 @@ class PatientDetails extends Component {
           })}
           <div className="dates">
             <div className="fields">
-              <div className="fieldnames">
+              <div className="fieldNames">
                 <h4>
                   {fieldNames['dateOfBirth']}
                 </h4>
@@ -79,7 +77,7 @@ class PatientDetails extends Component {
               </h4>
             </div>
             <div className="fields">
-              <div className="fieldnames">
+              <div className="fieldNames">
                 <h4>
                   {fieldNames['dateOfDeath']}
                 </h4>
@@ -89,26 +87,60 @@ class PatientDetails extends Component {
               </h4>
             </div>
           </div>
-          <div>
+          <div className="lists">
             {Object.keys(patient).map(item => {
               if (types.get(patient[item]) === types.array) {
                 return (
                   <div>
+                    <div className="fieldNames">
+                      <h4>
+                        {item}
+                      </h4>
+                    </div>
                     {patient[item].map(elem =>
-                      <div>
-                        {Object.keys(elem).map(objKey =>
-                          objKey !== 'usage'
-                            ? <h4>
-                              {objKey + ': ' + elem[objKey]}
-                            </h4>
-                            : <h4>
-                              {elem[objKey]}
-                            </h4>)}
-                      </div>)}
+                      <div
+                        className={
+                          item == 'addresses' ? 'colFields' : 'reverseFields'
+                        }
+                      >
+                        {Object.keys(elem).map(objKey => {
+                          if (elem[objKey]) {
+                            switch (objKey) {
+                            case 'usage':
+                              return (
+                                <h4 className="fieldContent">
+                                  {elem[objKey]}
+                                </h4>
+                              );
+                            case 'value':
+                              return (
+                                <h4 className="fieldContent">
+                                  {elem[objKey]}
+                                </h4>
+                              );
+                            case 'codeSystem':
+                              return (
+                                <h4 className="fieldContent">
+                                  {elem[objKey] + ': '}
+                                </h4>
+                              );
+                            default:
+                              return (
+                                <h4 className="fieldContent">
+                                  {objKey + ': ' + elem[objKey]}
+                                </h4>
+                              );
+                            }
+                          }
+                        })}
+                      </div>
+                    )}
                   </div>
                 );
               }
             })}
+          </div>
+          <div>
             {Object.keys(patient).map(item => {
               if (types.get(patient[item]) === types.object) {
                 return (

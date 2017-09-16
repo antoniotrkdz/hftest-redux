@@ -105,9 +105,10 @@ tr:nth-child(odd) {
   margin: 1%;
   justify-content: center;
   border-bottom: 1px solid #222;
+  flex-wrap: nowrap;
 }
 
-.fieldnames {
+.fieldNames {
   padding: 0 10px;
   color: #fafafa;
   background-color: #222;
@@ -123,3 +124,17 @@ tr:nth-child(odd) {
   justify-content: space-around;
   flex-wrap: wrap;
 } 
+
+.lists {
+  display: flex; 
+}
+
+.reverseFields {
+  margin: 1%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content:flex-end;
+}
+
+.colFields {
+}
