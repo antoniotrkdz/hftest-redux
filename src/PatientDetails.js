@@ -87,29 +87,33 @@ class PatientDetails extends Component {
               </h4>
             </div>
           </div>
-          <div className="lists">
-            {Object.keys(patient).map(item => {
-              if (types.get(patient[item]) === types.array) {
-                return (
-                  <div>
-                    <div className="fieldNames">
-                      <h4>
-                        {item}
-                      </h4>
-                    </div>
-                    {patient[item].map(elem =>
-                      <div
-                        className={
-                          item == 'addresses' ? 'colFields' : 'reverseFields'
-                        }
-                      >
-                        {Object.keys(elem).map(objKey => {
+        </div>
+        <div className="lists">
+          {Object.keys(patient).map(item => {
+            if (types.get(patient[item]) === types.array) {
+              return (
+                <div>
+                  <div className="fieldNames">
+                    <h4>
+                      {item}
+                    </h4>
+                  </div>
+                  {patient[item].map(elem =>
+                    <div
+                      className={
+                        item == 'identifiers' ? 'reverseFields' : 'colFields'
+                      }
+                    >
+                      {item != 'addresses'
+                        ? Object.keys(elem).map(objKey => {
                           if (elem[objKey]) {
                             switch (objKey) {
                             case 'usage':
                               return (
-                                <h4 className="fieldContent">
-                                  {elem[objKey]}
+                                <h4 className="fieldContent bold">
+                                  {elem[objKey] == 'primary'
+                                    ? null
+                                    : elem[objKey]}
                                 </h4>
                               );
                             case 'value':
@@ -132,27 +136,39 @@ class PatientDetails extends Component {
                               );
                             }
                           }
+                        })
+                        : Object.keys(elem).map(objKey => {
+                          return (
+                            <h4
+                              className={
+                                objKey == 'usage'
+                                  ? 'fieldContent bold'
+                                  : 'fieldContent'
+                              }
+                            >
+                              {elem[objKey]}
+                            </h4>
+                          );
                         })}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
-            })}
-          </div>
-          <div>
-            {Object.keys(patient).map(item => {
-              if (types.get(patient[item]) === types.object) {
-                return (
-                  <div>
-                    <h4>
-                      {item + ': object'}
-                    </h4>
-                  </div>
-                );
-              }
-            })}
-          </div>
+                    </div>
+                  )}
+                </div>
+              );
+            }
+          })}
+        </div>
+        <div>
+          {Object.keys(patient).map(item => {
+            if (types.get(patient[item]) === types.object) {
+              return (
+                <div>
+                  <h4>
+                    {item + ': object'}
+                  </h4>
+                </div>
+              );
+            }
+          })}
         </div>
       </div>
     );

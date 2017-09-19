@@ -118,6 +118,10 @@ tr:nth-child(odd) {
   padding: 0 10px;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 .dates {
   width: 100%;
   display: flex;
@@ -137,4 +141,5 @@ tr:nth-child(odd) {
 }
 
 .colFields {
+  text-align: left;
 }
