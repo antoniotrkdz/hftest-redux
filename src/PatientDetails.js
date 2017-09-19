@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {types} from './types.js';
-import _ from 'lodash';
+//import _ from 'lodash';
 import moment from 'moment';
 
 class PatientDetails extends Component {
@@ -17,8 +17,6 @@ class PatientDetails extends Component {
         gender: 'Gender: ',
         dateOfBirth: 'Date of birth: ',
         dateOfDeath: 'Date of death: ',
-        //addresses: [response.addresses],
-        //{usage: null, value: "575-702-8745", codeSystem: "NHS"}
         //managingOrganisation:
       },
     };
@@ -101,17 +99,17 @@ class PatientDetails extends Component {
                   {patient[item].map(elem =>
                     <div
                       className={
-                        item == 'identifiers' ? 'reverseFields' : 'colFields'
+                        item === 'identifiers' ? 'reverseFields' : 'colFields'
                       }
                     >
-                      {item != 'addresses'
+                      {item !== 'addresses'
                         ? Object.keys(elem).map(objKey => {
                           if (elem[objKey]) {
                             switch (objKey) {
                             case 'usage':
                               return (
                                 <h4 className="fieldContent bold">
-                                  {elem[objKey] == 'primary'
+                                  {elem[objKey] === 'primary'
                                     ? null
                                     : elem[objKey]}
                                 </h4>
@@ -141,7 +139,7 @@ class PatientDetails extends Component {
                           return (
                             <h4
                               className={
-                                objKey == 'usage'
+                                objKey === 'usage'
                                   ? 'fieldContent bold'
                                   : 'fieldContent'
                               }
