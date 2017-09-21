@@ -127,10 +127,12 @@ tr:nth-child(odd) {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-} 
+}  
 
 .lists {
-  display: flex; 
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 .reverseFields {
