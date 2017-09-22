@@ -4,7 +4,6 @@ import {types} from './types.js';
 class InfoArray extends Component {
   render() {
     let patient = this.props.patient;
-    console.log(this.props);
     return (
       <div className="lists">
         {Object.keys(patient).map(item => {

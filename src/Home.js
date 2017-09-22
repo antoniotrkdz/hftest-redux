@@ -16,16 +16,6 @@ class Home extends Component {
       searchTerm: '',
       patients: [],
       responseParams: {
-        //last: false,
-        //totalPages: 100,
-        //totalElements: 1000,
-        //sort: null,
-        //numberOfElements: 10,
-        //first: true,
-        //size: 10,
-        //number: 0,
-        //size: 10,
-        //page: 0,
       },
       requestParams: {
         size: 10,
@@ -34,14 +24,12 @@ class Home extends Component {
   }
 
   fetchPatients(requestParams) {
-    console.log('reqParams', requestParams);
     const url = new URL('https://api.interview.healthforge.io/api/patient');
     if (requestParams)
       Object.keys(requestParams).forEach(key =>
         url.searchParams.append(key, requestParams[key])
       );
 
-    console.log('url', url);
     fetch(url).then(response => response.json()).then(response =>
       this.setState({
         patients: response.content,
@@ -77,9 +65,7 @@ class Home extends Component {
   }
 
   toggleSort(column) {
-    console.log('||', column, 'URL', this.URL);
     var requestParams = this.state.requestParams;
-    console.log('||reqP', requestParams);
     requestParams.sort === column + ' ASC' || null
       ? this.setState({
         requestParams: {
@@ -95,7 +81,6 @@ class Home extends Component {
       });
 
     this.fetchPatients(this.state.requestParams);
-    console.log('Fetching after toggle');
   }
 
   handlePageChanged(page) {
@@ -116,10 +101,6 @@ class Home extends Component {
         if (item.usage !== null) return item.value;
       })
     );
-    console.log('patients', patients);
-    console.log('ident', identifiers);
-    console.log('state', this.state);
-    console.log('props', this.props);
     return (
       <div className="App">
         <div className="container">
