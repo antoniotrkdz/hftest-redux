@@ -105,9 +105,10 @@ tr:nth-child(odd) {
   margin: 1%;
   justify-content: center;
   border-bottom: 1px solid #222;
+  flex-wrap: nowrap;
 }
 
-.fieldnames {
+.fieldNames {
   padding: 0 10px;
   color: #fafafa;
   background-color: #222;
@@ -115,4 +116,38 @@ tr:nth-child(odd) {
 
 .fieldContent {
   padding: 0 10px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.dates {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}  
+
+.lists {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.reverseFields {
+  margin: 1%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content:flex-end;
+}
+
+.colFields {
+  text-align: left;
+}
+
+.reverseFieldManag {
+  display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: nowrap;
 }

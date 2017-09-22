@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {types} from './types.js';
 import moment from 'moment';
+import InfoArray from './InfoArray.js';
+import InfoManaging from './InfoManaging.js';
 
 class PatientDetails extends Component {
   constructor() {
@@ -16,9 +18,6 @@ class PatientDetails extends Component {
         gender: 'Gender: ',
         dateOfBirth: 'Date of birth: ',
         dateOfDeath: 'Date of death: ',
-        //addresses: [response.addresses],
-        //{usage: null, value: "575-702-8745", codeSystem: "NHS"}
-        //managingOrganisation:
       },
     };
   }
@@ -37,58 +36,60 @@ class PatientDetails extends Component {
 
   render() {
     let patient = this.state.patient;
-    console.log('1patient', patient);
-    console.log(Object.keys(patient));
+    let fieldNames = this.state.fieldNames;
+    console.log(this.props.match.params.patientId);
     return (
       <div className="container">
         <h2>Patient details</h2>
-        <h4>
-          Patient ID: {this.props.match.params.patientId}
-        </h4>
         <div className="credentials">
           {Object.keys(patient).map(item => {
-            if (types.get(patient[item]) === types.string) {
+            if (
+              types.get(patient[item]) === types.string &&
+              patient[item].search(/\d{4}/) === -1
+            ) {
               return (
                 <div className="fields">
-                  <div className="fieldnames">
+                  <div className="fieldNames">
                     <h4>
-                      {this.state.fieldNames[item]}
+                      {fieldNames[item]}
                     </h4>
                   </div>
-                  {patient[item].search(/\d{4}/) !== -1
-                    ? <h4 className="fieldContent dates">
-                      {moment(patient[item]).format('DD MMM YYYY')}
-                    </h4>
-                    : <h4 className="fieldContent">
-                      {patient[item]}
-                    </h4>}
+                  <h4 className="fieldContent">
+                    {patient[item]}
+                  </h4>
                 </div>
               );
             }
           })}
+          <div className="dates">
+            <div className="fields">
+              <div className="fieldNames">
+                <h4>
+                  {fieldNames['dateOfBirth']}
+                </h4>
+              </div>
+              <h4 className="fieldContent">
+                {moment(patient['dateOfBirth']).format('DD MMM YYYY')}
+              </h4>
+            </div>
+            <div className="fields">
+              <div className="fieldNames">
+                <h4>
+                  {fieldNames['dateOfDeath']}
+                </h4>
+              </div>
+              <h4 className="fieldContent">
+                {moment(patient['dateOfDeath']).format('DD MMM YYYY')}
+              </h4>
+            </div>
+          </div>
         </div>
-        {Object.keys(patient).map(item => {
-          if (types.get(patient[item]) === types.array) {
-            return (
-              <div>
-                <h4>
-                  {item + ': array'}
-                </h4>
-              </div>
-            );
-          }
-        })}
-        {Object.keys(patient).map(item => {
-          if (types.get(patient[item]) === types.object) {
-            return (
-              <div>
-                <h4>
-                  {item + ': object'}
-                </h4>
-              </div>
-            );
-          }
-        })}
+        <div>
+          <InfoArray patient={this.state.patient} />
+        </div>
+        <div>
+          <InfoManaging patient={this.state.patient} />
+        </div>
       </div>
     );
   }
