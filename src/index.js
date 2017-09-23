@@ -4,8 +4,9 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 import Home from './Home';
 import PatientDetails from './PatientDetails';
+import Keycloak from 'keycloak-js';
 
-const App = () => (
+const App = () =>
   <div className="App">
     <header className="App-header">
       <h1>Welcome to Health Forge</h1>
@@ -16,11 +17,37 @@ const App = () => (
         <Route path="/:patientId" component={PatientDetails} />
       </switch>
     </main>
-  </div>
-);
+  </div>;
 
-ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>, document.getElementById('root'));
+const kc = Keycloak('/keycloak.json');
+
+kc.init({onLoad: 'check-sso'}).success(authenticated => {
+  if (authenticated) {
+    //store.getState().keycloak = kc;
+
+    setInterval(() => {
+      kc.updateToken(10).error(() => kc.logout());
+    }, 10000);
+
+    ReactDOM.render(
+      <BrowserRouter>
+        <App kc={kc}/>
+      </BrowserRouter>,
+      document.getElementById('root')
+    );
+
+  } else {
+    kc.login();
+  }
+});
+
+//axios.interceptors.request.use(config => {
+  //config.headers = {...config.headers, ...{
+    //'Content-Type': 'application/json',
+    //Accept: 'application/json',
+    //Authorization: 'Bearer ' + kc.token
+  //}};
+  //return config;
+//});
+
 registerServiceWorker();

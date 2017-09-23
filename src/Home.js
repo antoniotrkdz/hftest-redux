@@ -24,7 +24,7 @@ class Home extends Component {
   }
 
   fetchPatients(requestParams) {
-    const url = new URL('https://api.interview.healthforge.io/api/patient');
+    const url = new URL('https://api.interview.healthforge.io/api/secure/patient');
     if (requestParams)
       Object.keys(requestParams).forEach(key =>
         url.searchParams.append(key, requestParams[key])
@@ -95,6 +95,8 @@ class Home extends Component {
   }
 
   render() {
+    console.log(this.state);
+    console.log(this.props);
     var patients = this.state.patients;
     var identifiers = patients.map(item =>
       item.identifiers.reduce(item => {

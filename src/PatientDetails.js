@@ -23,7 +23,7 @@ class PatientDetails extends Component {
   }
 
   componentWillMount() {
-    const url = 'https://api.interview.healthforge.io/api/patient';
+    const url = 'https://api.interview.healthforge.io/api/secure/patient';
     let patientId = this.props.match.params.patientId;
     fetch(url + '/' + patientId)
       .then(response => response.json())
@@ -31,6 +31,8 @@ class PatientDetails extends Component {
         this.setState({
           patient: response,
         })
+      ).catch(error => 
+        console.log('There has been a problem with your fetch operation: ' + error.message)
       );
   }
 
