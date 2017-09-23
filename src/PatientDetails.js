@@ -31,9 +31,8 @@ class PatientDetails extends Component {
         this.setState({
           patient: response,
         })
-      ).catch(error => 
-        console.log('There has been a problem with your fetch operation: ' + error.message)
-      );
+      )
+      .catch(error => console.log('Fetch operation failed: ' + error.message));
   }
 
   render() {

@@ -15,8 +15,7 @@ class Home extends Component {
     this.state = {
       searchTerm: '',
       patients: [],
-      responseParams: {
-      },
+      responseParams: {},
       requestParams: {
         size: 10,
       },
@@ -30,22 +29,25 @@ class Home extends Component {
         url.searchParams.append(key, requestParams[key])
       );
 
-    fetch(url).then(response => response.json()).then(response =>
-      this.setState({
-        patients: response.content,
-        responseParams: {
-          last: response.last,
-          totalPages: response.totalPages,
-          totalElements: response.totalElements,
-          sort: response.sort,
-          numberOfElements: response.numberOfElements,
-          first: response.first,
-          size: response.size,
-          number: response.number,
-          page: response.number,
-        },
-      })
-    );
+    fetch(url)
+      .then(response => response.json())
+      .then(response =>
+        this.setState({
+          patients: response.content,
+          responseParams: {
+            last: response.last,
+            totalPages: response.totalPages,
+            totalElements: response.totalElements,
+            sort: response.sort,
+            numberOfElements: response.numberOfElements,
+            first: response.first,
+            size: response.size,
+            number: response.number,
+            page: response.number,
+          },
+        })
+      )
+      .catch(error => console.log('Fetch operation failed: ' + error.message));
   }
 
   componentWillMount() {
