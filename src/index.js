@@ -5,6 +5,7 @@ import registerServiceWorker from './registerServiceWorker';
 import Home from './Home';
 import PatientDetails from './PatientDetails';
 import Keycloak from 'keycloak-js';
+import axios from 'axios';
 
 const App = () =>
   <div className="App">
@@ -23,31 +24,31 @@ const kc = Keycloak('/keycloak.json');
 
 kc.init({onLoad: 'check-sso'}).success(authenticated => {
   if (authenticated) {
-    //store.getState().keycloak = kc;
-
     setInterval(() => {
       kc.updateToken(10).error(() => kc.logout());
     }, 10000);
 
     ReactDOM.render(
       <BrowserRouter>
-        <App kc={kc}/>
+        <App />
       </BrowserRouter>,
       document.getElementById('root')
     );
-
   } else {
     kc.login();
   }
 });
 
-//axios.interceptors.request.use(config => {
-  //config.headers = {...config.headers, ...{
-    //'Content-Type': 'application/json',
-    //Accept: 'application/json',
-    //Authorization: 'Bearer ' + kc.token
-  //}};
-  //return config;
-//});
+axios.interceptors.request.use(config => {
+  config.headers = {
+    ...config.headers,
+    ...{
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: 'Bearer ' + kc.token,
+    },
+  };
+  return config;
+});
 
 registerServiceWorker();

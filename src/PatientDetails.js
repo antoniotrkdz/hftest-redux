@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {types} from './types.js';
 import moment from 'moment';
+import axios from 'axios';
 import InfoArray from './InfoArray.js';
 import InfoManaging from './InfoManaging.js';
 
@@ -25,8 +26,8 @@ class PatientDetails extends Component {
   componentWillMount() {
     const url = 'https://api.interview.healthforge.io/api/secure/patient';
     let patientId = this.props.match.params.patientId;
-    fetch(url + '/' + patientId)
-      .then(response => response.json())
+    axios.get(url + '/' + patientId)
+      .then(response => response.data)
       .then(response =>
         this.setState({
           patient: response,
@@ -38,7 +39,6 @@ class PatientDetails extends Component {
   render() {
     let patient = this.state.patient;
     let fieldNames = this.state.fieldNames;
-    console.log(this.props.match.params.patientId);
     return (
       <div className="container">
         <h2>Patient details</h2>
