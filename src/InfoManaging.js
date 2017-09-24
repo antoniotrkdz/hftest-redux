@@ -48,13 +48,16 @@ class InfoManaging extends Component {
                         <div className="colFields">
                           <h4 className="bold">
                             {elem === 'telecom'
-                              ? 'contact' + ': '
+                              ? 'contact: '
                               : elem + ': '}
                           </h4>
                           {Object.keys(patient[item][elem]).map(subElem => {
                             if (patient[item][elem][subElem]) {
                               return (
-                                <h4 className="fieldContent">
+                                <h4
+                                  key={patient[item][elem][subElem]}
+                                  className="fieldContent"
+                                >
                                   {patient[item][elem][subElem] + ' '}
                                 </h4>
                               );

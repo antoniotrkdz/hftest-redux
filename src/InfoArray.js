@@ -27,7 +27,10 @@ class InfoArray extends Component {
                           switch (objKey) {
                           case 'usage':
                             return (
-                              <h4 className="fieldContent bold">
+                              <h4
+                                key={elem[objKey]}
+                                className="fieldContent bold"
+                              >
                                 {elem[objKey] === 'primary'
                                   ? null
                                   : elem[objKey]}
@@ -35,13 +38,19 @@ class InfoArray extends Component {
                             );
                           case 'value':
                             return (
-                              <h4 className="fieldContent">
+                              <h4
+                                key={elem['value']}
+                                className="fieldContent"
+                              >
                                 {elem[objKey]}
                               </h4>
                             );
                           case 'codeSystem':
                             return (
-                              <h4 className="fieldContent">
+                              <h4
+                                key={elem['codeSystem']}
+                                className="fieldContent"
+                              >
                                 {elem[objKey] + ': '}
                               </h4>
                             );

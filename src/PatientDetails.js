@@ -26,7 +26,8 @@ class PatientDetails extends Component {
   componentWillMount() {
     const url = 'https://api.interview.healthforge.io/api/secure/patient';
     let patientId = this.props.match.params.patientId;
-    axios.get(url + '/' + patientId)
+    axios
+      .get(url + '/' + patientId)
       .then(response => response.data)
       .then(response =>
         this.setState({
@@ -49,7 +50,7 @@ class PatientDetails extends Component {
               patient[item].search(/\d{4}/) === -1
             ) {
               return (
-                <div className="fields">
+                <div key={patient[item]} className="fields">
                   <div className="fieldNames">
                     <h4>
                       {fieldNames[item]}

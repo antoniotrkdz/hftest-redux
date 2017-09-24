@@ -103,11 +103,11 @@ class Home extends Component {
 
   render() {
     var patients = this.state.patients;
-    var identifiers = patients.map(item =>
-      item.identifiers.reduce(item => {
+    var identifiers = patients.map(item => {
+      return item.identifiers.reduce(item => {
         if (item.usage !== null) return item.value;
-      })
-    );
+      });
+    });
     return (
       <div className="App">
         <div className="container">
