@@ -48,7 +48,7 @@ class InfoManaging extends Component {
                         <div className="colFields">
                           <h4 className="bold">
                             {elem === 'telecom'
-                              ? 'contact' + ': '
+                              ? 'contact: '
                               : elem + ': '}
                           </h4>
                           {Object.keys(patient[item][elem]).map(subElem => {
