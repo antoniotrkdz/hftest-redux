@@ -24,11 +24,11 @@ class Home extends Component {
   }
 
   fetchPatients(requestParams) {
+    requestParams = this.state.requestParams;
+
     const url = new URL(
       'https://api.interview.healthforge.io/api/secure/patient'
     );
-
-    requestParams = this.state.requestParams;
 
     Object.keys(requestParams).forEach(key =>
       url.searchParams.append(key, requestParams[key])
