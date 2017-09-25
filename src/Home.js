@@ -106,6 +106,7 @@ class Home extends Component {
   }
 
   render() {
+    var sort = this.state.requestParams.sort;
     var patients = this.state.patients;
     var identifiers = patients.map(item =>
       item.identifiers.reduce(item => {
@@ -150,13 +151,29 @@ class Home extends Component {
           <table className="table">
             <tbody>
               <tr className="results_headers">
-                <th onClick={() => this.toggleSort('lastName')}>Last name</th>
-                <th onClick={() => this.toggleSort('firstName')}>First name</th>
+                <th onClick={() => this.toggleSort('lastName')}>
+                  Last name{!sort || !sort.startsWith('last')
+                    ? <span>&#9666; &#9656;</span>
+                    : sort === 'lastName DESC'
+                      ? <span>&nbsp;&nbsp;&#9652;</span>
+                      : <span>&nbsp;&nbsp;&#9662;</span>}
+                </th>
+                <th onClick={() => this.toggleSort('firstName')}>
+                  First name{!sort || !sort.startsWith('first')
+                    ? <span>&#9666; &#9656;</span>
+                    : sort === 'firstName DESC'
+                      ? <span>&nbsp;&nbsp;&#9652;</span>
+                      : <span>&nbsp;&nbsp;&#9662;</span>}
+                </th>
                 <th
                   id="dateOfBirth"
                   onClick={() => this.toggleSort('dateOfBirth')}
                 >
-                  Date of birth
+                  Date of birth{!sort || !sort.startsWith('date')
+                    ? <span>&#9666; &#9656;</span>
+                    : sort === 'dateOfBirth DESC'
+                      ? <span>&nbsp;&nbsp;&#9652;</span>
+                      : <span>&nbsp;&nbsp;&#9662;</span>}
                 </th>
               </tr>
               {patients.map((item, i) =>
