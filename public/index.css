@@ -41,6 +41,10 @@ body {
   background-color: #222;
 }
 
+.results_headers span {
+  float: right;
+}
+
 .results_headers:hover {
   cursor: pointer;
 }
