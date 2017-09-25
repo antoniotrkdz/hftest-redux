@@ -69,17 +69,15 @@ class Home extends Component {
   onSubmit(searchTerm) {
     searchTerm.preventDefault();
     searchTerm = this.state.searchTerm;
-    console.log('before', searchTerm);
     searchTerm.search(/[0-9]/g) !== -1
       ? (searchTerm = {zipCode: `${searchTerm}`})
       : (searchTerm = {lastName: `${searchTerm}`});
-    console.log('after', searchTerm);
+
     this.setState(
       {
         requestParams: searchTerm,
       },
       () => {
-        console.log(this.state.requestParams);
         this.fetchPatients(this.state.requestParams);
       }
     );
@@ -139,7 +137,16 @@ class Home extends Component {
             <button
               className="btn"
               type="clear"
-              onClick={() => this.setState({searchTerm: ''})}
+              onClick={() =>
+                this.setState(
+                  {
+                    searchTerm: '',
+                    requestParams: {
+                      size: 10,
+                    },
+                  },
+                  () => this.fetchPatients()
+                )}
             >
               Clear
             </button>
