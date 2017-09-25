@@ -28,10 +28,11 @@ class Home extends Component {
       'https://api.interview.healthforge.io/api/secure/patient'
     );
 
-    if (requestParams)
-      Object.keys(requestParams).forEach(key =>
-        url.searchParams.append(key, requestParams[key])
-      );
+    requestParams = this.state.requestParams;
+
+    Object.keys(requestParams).forEach(key =>
+      url.searchParams.append(key, requestParams[key])
+    );
 
     axios
       .get(url)
@@ -74,31 +75,37 @@ class Home extends Component {
   toggleSort(column) {
     var requestParams = this.state.requestParams;
     requestParams.sort === column + ' ASC' || null
-      ? this.setState({
-        requestParams: {
-          ...requestParams,
-          sort: column + ' DESC',
+      ? this.setState(
+        {
+          requestParams: {
+            ...requestParams,
+            sort: column + ' DESC',
+          },
         },
-      })
-      : this.setState({
-        requestParams: {
-          ...requestParams,
-          sort: column + ' ASC',
+        () => this.fetchPatients(requestParams)
+      )
+      : this.setState(
+        {
+          requestParams: {
+            ...requestParams,
+            sort: column + ' ASC',
+          },
         },
-      });
-
-    this.fetchPatients(this.state.requestParams);
+        () => this.fetchPatients(requestParams)
+      );
   }
 
   handlePageChanged(page) {
     var requestParams = this.state.requestParams;
-    this.setState({
-      requestParams: {
-        ...requestParams,
-        page: page,
+    this.setState(
+      {
+        requestParams: {
+          ...requestParams,
+          page: page,
+        },
       },
-    });
-    this.fetchPatients(this.state.requestParams);
+      () => this.fetchPatients(requestParams)
+    );
   }
 
   render() {
