@@ -47,7 +47,7 @@ class PatientDetails extends Component {
           {Object.keys(patient).map(item => {
             if (
               types.get(patient[item]) === types.string &&
-              patient[item].search(/\d{4}/) === -1
+              patient[item].search(/[0-9]{4}/) === -1
             ) {
               return (
                 <div key={patient[item]} className="fields">

@@ -66,33 +66,40 @@ class Home extends Component {
     });
   }
 
-  onSubmit(evt) {
-    evt.preventDefault();
-    if (moment.evt) this.setState({});
-    this.fetchPatients(this.state.requestParams);
+  onSubmit(searchTerm) {
+    searchTerm.preventDefault();
+    searchTerm = this.state.searchTerm;
+    console.log('before', searchTerm);
+    searchTerm.search(/[0-9]/g) !== -1
+      ? (searchTerm = {zipCode: `${searchTerm}`})
+      : (searchTerm = {lastName: `${searchTerm}`});
+    console.log('after', searchTerm);
+    this.setState(
+      {
+        requestParams: searchTerm,
+      },
+      () => {
+        console.log(this.state.requestParams);
+        this.fetchPatients(this.state.requestParams);
+      }
+    );
   }
 
   toggleSort(column) {
     var requestParams = this.state.requestParams;
+    var direction = '';
     requestParams.sort === column + ' ASC' || null
-      ? this.setState(
-        {
-          requestParams: {
-            ...requestParams,
-            sort: column + ' DESC',
-          },
+      ? (direction = ' DESC')
+      : (direction = ' ASC');
+    this.setState(
+      {
+        requestParams: {
+          ...requestParams,
+          sort: column + direction,
         },
-        () => this.fetchPatients(requestParams)
-      )
-      : this.setState(
-        {
-          requestParams: {
-            ...requestParams,
-            sort: column + ' ASC',
-          },
-        },
-        () => this.fetchPatients(requestParams)
-      );
+      },
+      () => this.fetchPatients(requestParams)
+    );
   }
 
   handlePageChanged(page) {
