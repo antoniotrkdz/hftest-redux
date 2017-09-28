@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {types} from './types.js';
+import {types} from '../types.js';
 import moment from 'moment';
 import InfoArray from './InfoArray.js';
 import InfoManaging from './InfoManaging.js';

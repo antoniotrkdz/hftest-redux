@@ -13,8 +13,8 @@ import {
 import {composeWithDevTools} from 'redux-devtools-extension';
 import rootReducer from './reducers/index.js';
 import registerServiceWorker from './registerServiceWorker';
-import Home from './Home';
-import PatientDetails from './PatientDetails';
+import Home from './components/Home.js';
+import PatientDetails from './components/PatientDetails.js';
 
 const history = createBrowserHistory();
 

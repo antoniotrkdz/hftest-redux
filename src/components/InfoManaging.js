@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {types} from './types.js';
+import {types} from '../types.js';
 
 class InfoManaging extends Component {
   constructor() {

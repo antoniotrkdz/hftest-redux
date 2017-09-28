@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import Pager from 'react-pager';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {fetchPatients} from '../actions/fetchPatients.js';
 
 class Home extends Component {
   constructor() {
     super();
-    this.fetchPatients = this.fetchPatients.bind(this);
+    //this.props.fetchPatients = this.props.fetchPatients.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.toggleSort = this.toggleSort.bind(this);
@@ -19,39 +21,13 @@ class Home extends Component {
       requestParams: {
         size: 10,
       },
+      hasErrored: false,
+      isLoading: false,
     };
   }
 
-  fetchPatients(requestParams) {
-    requestParams = this.state.requestParams;
-    const url = new URL('https://api.interview.healthforge.io/api/patient');
-    Object.keys(requestParams).forEach(key =>
-      url.searchParams.append(key, requestParams[key])
-    );
-
-    fetch(url)
-      .then(response => response.json())
-      .then(response =>
-        this.setState({
-          patients: response.content,
-          responseParams: {
-            last: response.last,
-            totalPages: response.totalPages,
-            totalElements: response.totalElements,
-            sort: response.sort,
-            numberOfElements: response.numberOfElements,
-            first: response.first,
-            size: response.size,
-            number: response.number,
-            page: response.number,
-          },
-        })
-      )
-      .catch(error => console.log('Fetch operation failed: ' + error.message));
-  }
-
   componentWillMount() {
-    this.fetchPatients();
+    this.props.fetchPatients();
   }
 
   onChange(input) {
@@ -106,7 +82,13 @@ class Home extends Component {
   }
 
   render() {
-    var sort = this.state.requestParams.sort;
+    console.log('state', this.state);
+    console.log('props', this.props);
+    var response= this.props.response;
+    var sort = response && response.responseParams && response.responseParams.sort;
+    var porcoiddio = response && response.patients;
+
+    console.log('++++',response,sort,porcoiddio);
     var patients = this.state.patients;
     var identifiers = patients.map(item =>
       item.identifiers.reduce(item => {
@@ -210,4 +192,25 @@ class Home extends Component {
   }
 }
 
-export default Home;
+function mapStateToProps(state) {
+  var response = {
+    patients: state.response.content,
+    responseParams: {
+      last: state.response.last,
+      totalPages: state.response.totalPages,
+      totalElements: state.response.totalElements,
+      sort: state.response.sort,
+      numberOfElements: state.response.numberOfElements,
+      first: state.response.first,
+      size: state.response.size,
+      number: state.response.number,
+      page: state.response.number,
+    },
+  };
+
+  return {
+    response,
+  };
+}
+
+export default connect(mapStateToProps, {fetchPatients})(Home);

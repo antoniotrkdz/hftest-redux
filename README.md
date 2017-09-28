@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 You can find the most recent version of the guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-### This project has two branches:
+### This project is using Redux and has two branches:
 
 The ___master___ branch is accessing the unsecured API endpoint(s).<br>
 This App uses [moment.js](https://momentjs.com/), [react-pager (stateless)](https://github.com/AZaviruha/pager) and [Bootstrap 3.x](https://getbootstrap.com/docs/3.3/).
