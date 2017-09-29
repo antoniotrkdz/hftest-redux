@@ -25,7 +25,7 @@ export function patientsFetchSuccess(state = {}, action) {
   case 'PATIENTS_FETCH_SUCCESS':
     return {
       ...state,
-      patients: action.response,
+      ...action.response,
     };
   default:
     return state;

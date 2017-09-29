@@ -26,7 +26,7 @@ class Home extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchPatients();
   }
 
@@ -84,12 +84,10 @@ class Home extends Component {
   render() {
     console.log('state', this.state);
     console.log('props', this.props);
-    var response= this.props.response;
-    var sort = response && response.responseParams && response.responseParams.sort;
-    var porcoiddio = response && response.patients;
-
-    console.log('++++',response,sort,porcoiddio);
-    var patients = this.state.patients;
+    var sort = this.props.response.responseParams.sort;
+    var patients = this.props.response.patients
+      ? this.props.response.patients
+      : [];
     var identifiers = patients.map(item =>
       item.identifiers.reduce(item => {
         if (item.usage !== null) return item.value;
