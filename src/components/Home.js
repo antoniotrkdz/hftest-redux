@@ -4,11 +4,11 @@ import moment from 'moment';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {fetchPatients} from '../actions/fetchPatients.js';
+import {setSearchTerm} from '../actions/setSearchTerm.js';
 
 class Home extends Component {
   constructor() {
     super();
-    //this.props.fetchPatients = this.props.fetchPatients.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.toggleSort = this.toggleSort.bind(this);
@@ -16,8 +16,6 @@ class Home extends Component {
 
     this.state = {
       searchTerm: '',
-      patients: [],
-      responseParams: {},
       requestParams: {
         size: 10,
       },
@@ -31,6 +29,7 @@ class Home extends Component {
   }
 
   onChange(input) {
+    this.props.setSearchTerm(input.target.value);
     this.setState({
       searchTerm: input.target.value,
     });
@@ -47,7 +46,7 @@ class Home extends Component {
       {
         requestParams: searchTerm,
       },
-      () => this.fetchPatients(this.state.requestParams)
+      () => this.props.fetchPatients(this.state.requestParams)
     );
   }
 
@@ -64,7 +63,7 @@ class Home extends Component {
           sort: column + direction,
         },
       },
-      () => this.fetchPatients(requestParams)
+      () => this.props.fetchPatients(requestParams)
     );
   }
 
@@ -77,11 +76,17 @@ class Home extends Component {
           page: page,
         },
       },
-      () => this.fetchPatients(requestParams)
+      () => this.props.fetchPatients(requestParams)
     );
   }
 
   render() {
+    if (this.props.hasErrored) {
+      return <h4>There was an error loading the items</h4>;
+    }
+    if (this.props.isLoading) {
+      return <h4>Loading…</h4>;
+    }
     console.log('state', this.state);
     console.log('props', this.props);
     var sort = this.props.response.responseParams.sort;
@@ -179,8 +184,8 @@ class Home extends Component {
           </table>
           <Pager
             className="pagination"
-            total={this.state.responseParams.totalPages}
-            current={this.state.responseParams.number}
+            total={this.props.response.responseParams.totalPages}
+            current={this.props.response.responseParams.number}
             visiblePages={5}
             onPageChanged={this.handlePageChanged}
           />
@@ -208,7 +213,9 @@ function mapStateToProps(state) {
 
   return {
     response,
+    isLoading: state.patientsIsLoading,
+    hasErrored: state.patientsHasErrored,
   };
 }
 
-export default connect(mapStateToProps, {fetchPatients})(Home);
+export default connect(mapStateToProps, {fetchPatients, setSearchTerm})(Home);

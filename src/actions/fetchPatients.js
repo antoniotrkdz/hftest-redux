@@ -3,7 +3,6 @@ import {patientsIsLoading, patientsFetchSuccess, patientsHasErrored} from './pat
 export function fetchPatients(requestParams) {
   return dispatch => {
     dispatch(patientsIsLoading(true));
-
     //requestParams = state.requestParams;
     const url = new URL('https://api.interview.healthforge.io/api/patient');
     //Object.keys(requestParams).forEach(key =>

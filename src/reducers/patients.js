@@ -3,7 +3,7 @@ export function patientsHasErrored(state = false, action) {
   case 'PATIENTS_HAS_ERRORED':
     return {
       ...state,
-      hasErrored: action.hasErrored,
+      ...action.hasErrored,
     };
   default:
     return state;
@@ -14,7 +14,7 @@ export function patientsIsLoading(state = false, action) {
   case 'ITEMS_IS_LOADING':
     return {
       ...state,
-      isLoading: action.isLoading,
+      ...action.isLoading,
     };
   default:
     return state;
